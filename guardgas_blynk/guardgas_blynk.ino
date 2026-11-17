@@ -92,8 +92,12 @@ const unsigned long EVENTO_MIN_MS      = 60000;   // por tipo de evento
 const unsigned long JANELA_DIA_MS      = 24UL * 60UL * 60UL * 1000UL;
 const int           EVENTOS_MAX_DIA    = 80;      // o plano gratuito permite 100
 
-// ---------------- Estados ----------------
+// ---------------- Estados e eventos ----------------
+// Os dois enums ficam aqui, no topo, antes de qualquer função que os use.
+// A Arduino IDE gera as declarações das funções no começo do arquivo, então
+// os tipos usados nos parâmetros precisam estar declarados antes.
 enum Estado { AQUECENDO, NORMAL, ATENCAO, ALARME, FALHA };
+enum TipoEvento { EV_ATENCAO, EV_ALARME, EV_FALHA, EV_REINICIO, EV_COMANDO, EV_TOTAL };
 
 // Compartilhados entre os dois núcleos. Só o loop() escreve; a rede só lê.
 volatile Estado estado = AQUECENDO;
@@ -211,7 +215,6 @@ void diagnosticoFalha(int leitura) {
 // ============================================================================
 //  REDE (núcleo 0): Wi-Fi + Blynk. Só envia; nunca obedece comandos.
 // ============================================================================
-enum TipoEvento { EV_ATENCAO, EV_ALARME, EV_FALHA, EV_REINICIO, EV_COMANDO, EV_TOTAL };
 const char* const CODIGO_EVENTO[EV_TOTAL] = { "atencao", "alarme", "falha", "reinicio", "comando_bloqueado" };
 
 unsigned long tUltimoEvento[EV_TOTAL];
