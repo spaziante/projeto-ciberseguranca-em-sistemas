@@ -1,0 +1,7 @@
+# Segredos do GuardGás: nunca enviar para o GitHub
+secrets.h
+**/secrets.h
+*.pem
+*.key
+*.bin
+build/
